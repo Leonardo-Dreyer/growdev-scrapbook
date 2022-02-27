@@ -76,6 +76,7 @@ function logout(event) {
 
     axios.get(`http://localhost:8080/users/logout`)
         .then((response) => {
+            console.log(response);
             location.href = 'page-login.html';
         }).catch((error) => {
             console.log(error);
@@ -84,12 +85,9 @@ function logout(event) {
 
 function saveMessage(event) {
     event.preventDefault();
+    validateMessages();
 
-    if (inputDescrition.value === '' || inputDetailing.value === '') {
-        inputDescrition.classList.add('errors');
-        inputDetailing.classList.add('errors');
-        message.innerHTML = 'Recado inválido!';
-    }else if (id === 0) {
+    if (id === 0 && validateMessages() === true) {
         message.innerHTML = '';
         axios.post('http://localhost:8080/users/messages', {
                 descrition: inputDescrition.value,
@@ -129,6 +127,20 @@ function saveMessage(event) {
             }).catch((error) => {
                 console.log(error);
             });   
+    };
+};
+
+function validateMessages() {
+
+    if (inputDescrition.value === '' || inputDetailing.value === '') {
+        inputDescrition.classList.add('errors');
+        inputDetailing.classList.add('errors');
+        message.innerHTML = 'Recado inválido!';
+    } else {
+        inputDescrition.classList.remove('errors');
+        inputDetailing.classList.remove('errors');
+        message.innerHTML = '';
+        return true;
     };
 };
 
