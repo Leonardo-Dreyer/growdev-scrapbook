@@ -35,12 +35,15 @@ function creatUser(event) {
 };
 
 function validateUser(name, password, repeatPassword) {
+
     if (!name || name.length < 3) {
         userName.classList.add('errors');
+        message.innerHTML = 'Nome inválida!';
         return false;
     } else {
+        message.innerHTML = '';
         userName.classList.remove('errors');
-    }
+    };
 
     if (!password || password.length < 3 || password !== repeatPassword) {
         message.innerHTML = 'Senha inválida!';
@@ -58,7 +61,7 @@ function validateUser(name, password, repeatPassword) {
 function enterLogin(event) {
     event.preventDefault();
 
-    axios.get(`http://localhost:8080/users/${userName.value}/password/${userPassword.value}`)
+    axios.put(`http://localhost:8080/users/${userName.value}/password/${userPassword.value}`)
         .then((response) => {
             location.href = 'page-messages.html';
             userName.classList.remove('errors');
@@ -74,7 +77,7 @@ function enterLogin(event) {
 function logout(event) {
     event.preventDefault();
 
-    axios.get(`http://localhost:8080/users/logout`)
+    axios.put(`http://localhost:8080/users`)
         .then((response) => {
             console.log(response);
             location.href = 'page-login.html';
@@ -83,9 +86,8 @@ function logout(event) {
         });
 };
 
-function saveMessage(event) {
+function saveEditMessages(event) {
     event.preventDefault();
-    validateMessages();
 
     if (id === 0 && validateMessages() === true) {
         message.innerHTML = '';
@@ -152,8 +154,8 @@ window.onload = function showMessages() {
             <tr data-id='${message.id}'>
                 <td><span>${message.descrition}</span></td>
                 <td><span>${message.detailing}</span></td>
-                <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='editMessage(event)'> 
-                <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessage(event)'>
+                <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
+                <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessages(event)'>
                 </td> 
             </tr>
         `
@@ -163,7 +165,7 @@ window.onload = function showMessages() {
     });
 };
 
-function editMessage(event) {
+function getMessages(event) {
     id = event.target.parentNode.parentNode.dataset.id;
 
     axios.get(`http://localhost:8080/users/messages/${id}`)
@@ -175,7 +177,7 @@ function editMessage(event) {
         });
 };
 
-function deleteMessage(event) {
+function deleteMessages(event) {
     id = event.target.parentNode.parentNode.dataset.id;
 
     axios.delete(`http://localhost:8080/users/messages/${id}`)
