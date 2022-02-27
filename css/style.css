@@ -1,0 +1,156 @@
+body {
+    color: rgb(121, 65, 150);
+}
+
+.bg-image {
+    background-image: url('../images/bg-imageMessage.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+} 
+
+.btn {
+    border: 1px solid black;
+    color: black;
+    font-weight: 700;
+    border-radius: 0;
+}
+
+.div-style {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.829);
+    padding: 20px;
+    width: 40%;
+    border-radius: 10px;
+}
+
+.div-style header h1{
+    text-align: center;
+    font-size: x-large;
+}
+
+#message {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*-------------------------- Style page-login ----------------------------*/
+
+#form-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center ;
+    height: 150px;
+}
+
+#inputs-login {
+    display: flex;
+    justify-content: space-between;
+}
+
+#inputs-login input{
+    width: 48%;
+}
+
+.errors {
+    border: 2px solid red !important;
+}
+
+#access {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+/*-------------------------- Style page-register ----------------------------*/
+
+.inputs-register {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 250px;
+}
+
+.inputs-register span{
+    color: red;
+    display: none;
+}
+
+.inputs-register input:invalid + span{
+    display: inline;
+}
+
+.inputs-register input {
+    width: 80%;
+}
+
+.inputs-register div {
+    margin-top: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+}
+/*-------------------------- Style page-messages ----------------------------*/
+
+.container-fluid {
+    height: 100vh;
+}   
+
+.div-message {
+    margin: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.829);
+    border-radius: 10px;
+}
+
+.div-message header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#button-logout {
+    height: 100%;
+}
+
+.inputs-message {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.inputs-message input {
+    width: 30%; 
+    border: 1px solid;
+}
+
+#button-save {
+    width: 10%;
+}
+
+.table {
+    color: rgb(121, 121, 121);
+    font-weight: 700;
+    background-color: rgba(59, 30, 97, 0.836);
+}
+
+#descrition {
+    width: 30%;
+}
+
+#detailing {
+    width: 45%;
+}
+
