@@ -100,7 +100,7 @@ function saveEditMessages(event) {
                 axios.get('http://localhost:8080/users/messages')
                     .then(response => {
                         console.log(response);
-                        window.onload();
+                        showMessages();
                     }).catch(error => {
                         console.log(error);
                     });
@@ -119,7 +119,7 @@ function saveEditMessages(event) {
                 axios.get('http://localhost:8080/users/messages')
                     .then(response => {
                         console.log(response);
-                        window.onload();
+                        showMessages();
                     }).catch(error => {
                         console.log(error);
                     });
@@ -146,7 +146,7 @@ function validateMessages() {
     };
 };
 
-window.onload = function showMessages() {
+function showMessages() {
     axios.get('http://localhost:8080/users/messages')
     .then(response => {
         response.data.forEach(message => {
@@ -187,7 +187,7 @@ function deleteMessages(event) {
             axios.get('http://localhost:8080/users/messages')
                 .then(response => {
                     console.log(response);
-                    window.onload();
+                    showMessages();
                 }).catch(error => {
                     console.log(error);
                 });
