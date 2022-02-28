@@ -36,7 +36,7 @@ function creatUser(event) {
 
 function validateUser(name, password, repeatPassword) {
 
-    if (!name || name.length < 3) {
+    if (name.length < 3) {
         userName.classList.add('errors');
         message.innerHTML = 'Nome inválida!';
         return false;
@@ -45,7 +45,7 @@ function validateUser(name, password, repeatPassword) {
         userName.classList.remove('errors');
     };
 
-    if (!password || password.length < 3 || password !== repeatPassword) {
+    if (password.length < 3 || password !== repeatPassword) {
         message.innerHTML = 'Senha inválida!';
         userPassword.classList.add('errors');
         userRepeatPassword.classList.add('errors');
