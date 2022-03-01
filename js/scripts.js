@@ -16,7 +16,7 @@ function creatUser(event) {
         userRepeatPassword.value
     );
     if (userValid === true) {
-        axios.post('http://localhost:8080/users', {
+        axios.post('https://scrapbook-api-growdev.herokuapp.com/users', {
                 name: userName.value,
                 password: userPassword.value,
                 repeatPassword: userRepeatPassword.value,
@@ -61,7 +61,7 @@ function validateUser(name, password, repeatPassword) {
 function enterLogin(event) {
     event.preventDefault();
 
-    axios.put(`http://localhost:8080/users/${userName.value}/password/${userPassword.value}`)
+    axios.put(`https://scrapbook-api-growdev.herokuapp.com/users/${userName.value}/password/${userPassword.value}`)
         .then((response) => {
             location.href = 'page-messages.html';
             userName.classList.remove('errors');
@@ -77,7 +77,7 @@ function enterLogin(event) {
 function logout(event) {
     event.preventDefault();
 
-    axios.put(`http://localhost:8080/users`)
+    axios.put(`https://scrapbook-api-growdev.herokuapp.com/users`)
         .then((response) => {
             console.log(response);
             location.href = 'page-login.html';
@@ -91,13 +91,13 @@ function saveEditMessages(event) {
 
     if (id === 0 && validateMessages() === true) {
         message.innerHTML = '';
-        axios.post('http://localhost:8080/users/messages', {
+        axios.post('https://scrapbook-api-growdev.herokuapp.com/users/messages', {
                 descrition: inputDescrition.value,
                 detailing: inputDetailing.value,
             }).then((response) => {
                 console.log(response);
                 messageContent.innerHTML = '';
-                axios.get('http://localhost:8080/users/messages')
+                axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
                     .then(response => {
                         console.log(response);
                         showMessages();
@@ -110,13 +110,13 @@ function saveEditMessages(event) {
                 console.log(error);
             });        
     } else {
-        axios.put(`http://localhost:8080/users/messages/${id}`, {
+        axios.put(`https://scrapbook-api-growdev.herokuapp.com/users/messages/${id}`, {
                 descrition: inputDescrition.value,
                 detailing: inputDetailing.value,
             }).then((response) => {
                 console.log(response);
                 messageContent.innerHTML = '';
-                axios.get('http://localhost:8080/users/messages')
+                axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
                     .then(response => {
                         console.log(response);
                         showMessages();
@@ -147,7 +147,7 @@ function validateMessages() {
 };
 
 function showMessages() {
-    axios.get('http://localhost:8080/users/messages')
+    axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
     .then(response => {
         response.data.forEach(message => {
         messageContent.innerHTML += `
@@ -168,7 +168,7 @@ function showMessages() {
 function getMessages(event) {
     id = event.target.parentNode.parentNode.dataset.id;
 
-    axios.get(`http://localhost:8080/users/messages/${id}`)
+    axios.get(`https://scrapbook-api-growdev.herokuapp.com/users/messages/${id}`)
         .then(response => {
             inputDescrition.value = response.data.descrition;
             inputDetailing.value = response.data.detailing;
@@ -180,11 +180,11 @@ function getMessages(event) {
 function deleteMessages(event) {
     id = event.target.parentNode.parentNode.dataset.id;
 
-    axios.delete(`http://localhost:8080/users/messages/${id}`)
+    axios.delete(`https://scrapbook-api-growdev.herokuapp.com/users/messages/${id}`)
         .then(response => {
             console.log(response);
             messageContent.innerHTML = '';
-            axios.get('http://localhost:8080/users/messages')
+            axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
                 .then(response => {
                     console.log(response);
                     showMessages();
