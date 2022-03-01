@@ -7,7 +7,7 @@ const inputDetailing = document.getElementById('input-detailing');
 const messageContent = document.getElementById('content');
 let id = 0;
 
-function creatUser(event) {
+function createUser(event) {
     event.preventDefault();
 
     const userValid = validateUser(
