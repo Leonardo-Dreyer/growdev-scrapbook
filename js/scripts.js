@@ -14,7 +14,7 @@ function creatUser(event) {
         userName.value,
         userPassword.value,
         userRepeatPassword.value
-    );
+    )
     if (userValid === true) {
         axios.post('https://scrapbook-api-growdev.herokuapp.com/users', {
                 name: userName.value,
