@@ -1,6 +1,6 @@
-body {
-    color: rgb(121, 65, 150);
-}
+    h1 {
+        color: rgb(121, 65, 150);
+    }
 
 .bg-image {
     background-image: url('../images/bg-imageMessage.gif');
@@ -8,12 +8,33 @@ body {
     background-repeat: no-repeat;
 }
 
-.container {
+.container-fluid {
+    height: 100vh;
+}   
+
+.my-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.row {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-} 
+}
+
+.div-style {    
+    width: 500px;
+    padding: 20px;
+    border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.829);
+}
+
+.div-style header h1{   
+    text-align: center;
+    font-size: x-large;
+}
 
 .btn {
     border: 1px solid black;
@@ -22,26 +43,17 @@ body {
     border-radius: 0;
 }
 
-.div-style {
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.829);
-    padding: 20px;
-    width: 40%;
-    border-radius: 10px;
-}
-
-.div-style header h1{
-    text-align: center;
-    font-size: x-large;
-}
-
 #message {
     text-align: center;
 }
 
 a {
     text-decoration: none;
+    font-size: small;
+}
+
+.errors {
+    border: 2px solid red !important;
 }
 
 /*-------------------------- Style page-login ----------------------------*/
@@ -60,90 +72,67 @@ a {
 }
 
 #inputs-login input{
-    width: 48%;
+    width: 49%;
 }
 
-.errors {
-    border: 2px solid red !important;
-}
-
-#access {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-/*-------------------------- Style page-register ----------------------------*/
+/*-------------------------- Style index ----------------------------*/
 
 .inputs-register {
     display: flex;
-    align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    height: 250px;
+    height: 200px;
 }
 
-.inputs-register span{
+.inputs-register span {
     color: red;
     display: none;
 }
 
-.inputs-register input:invalid + span{
+.inputs-register input:invalid + span {
     display: inline;
 }
 
-.inputs-register input {
-    width: 80%;
-}
-
-.inputs-register div {
-    margin-top: 30px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 30%;
-}
 /*-------------------------- Style page-messages ----------------------------*/
 
-.container-fluid {
-    height: 100vh;
-}   
-
-.div-message {
+#div-messages {
     margin: 20px;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.829);
     border-radius: 10px;
 }
 
-.div-message header {
+#div-messages header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-#button-logout {
-    height: 100%;
-}
-
-.inputs-message {
+.inputs-messages {
     display: flex;
     margin-bottom: 30px;
 }
 
-.inputs-message input {
-    width: 30%; 
+.inputs-messages input {
+    width: 500px; 
     border: 1px solid;
 }
 
 #button-save {
-    width: 10%;
+    width: 100px;
 }
 
 .table {
     color: rgb(121, 121, 121);
     font-weight: 700;
-    background-color: rgba(59, 30, 97, 0.836);
+    background-color: rgba(59, 30, 97, 0.836);  
+    table-layout: fixed;
+    word-wrap: break-word;
+    min-width: 300px;
+}
+
+.table input {
+    width: 80px;
 }
 
 #descrition {
@@ -151,6 +140,26 @@ a {
 }
 
 #detailing {
-    width: 45%;
+    width: 50%;
 }
 
+@media (max-width: 700px) {
+    .inputs-messages {
+        display: flex;
+        margin-bottom: 30px;    
+        flex-wrap: wrap;
+    }
+
+    #descrition {
+        width: 30%;
+    }
+    
+    #detailing {
+        width: 40%;
+    }
+
+    .table input {
+        width: 70px;
+        padding: 8px;
+    }
+}

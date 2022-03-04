@@ -10,21 +10,23 @@
         <link rel="stylesheet" href="./css/style.css">
     </head>
     <body class="bg-image">
-        <div class="container">
-            <div class="div-style">
-                <header>
-                    <h1>CRIAR CONTA</h1>
-                </header>
-                <p id="message"></p>
-                <form class="inputs-register">
-                    <input type="text" minlength="3" id="user-name" placeholder="Nome do usuário">
-                    <span>Mínimo 3 caracteres!</span>
-                    <input type="password" minlength="3" id="user-password" placeholder="Senha">
-                    <span>Mínimo 3 caracteres!</span>
-                    <input type="password" id="repeat-password" placeholder="Repíta a senha">
-                    <input type="submit" class="btn btn-secondary" value="CRIAR" onclick="creatUser(event)">
-                    <a href="./page-login.html" class="styleLink">FAZER LOGIN</a>   
-                </form>
+        <div class="container-fluid my-container">
+            <div class="row">
+                <main class="div-style">  
+                    <header>
+                        <h1>CRIAR CONTA</h1>
+                    </header>
+                    <p id="message"></p>
+                    <form class="inputs-register">
+                        <input type="text" minlength="3" id="user-name" placeholder="Nome do usuário">
+                        <span>Mínimo 3 caracteres!</span>
+                        <input type="password" minlength="3" id="user-password" placeholder="Senha">
+                        <span>Mínimo 3 caracteres!</span>
+                        <input type="password" id="repeat-password" placeholder="Repita a senha">
+                        <input type="submit" class="btn btn-secondary" value="CRIAR" onclick="creatUser(event)">
+                        <a href="./page-login.html">FAZER LOGIN</a>   
+                    </form>
+                </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

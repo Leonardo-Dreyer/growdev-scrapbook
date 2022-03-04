@@ -10,20 +10,22 @@
         <link rel="stylesheet" href="./css/style.css">
     </head>
     <body class="bg-image">
-        <div class="container">
-            <div class="div-style">
-                <header>
-                    <h1>ENTRAR NO SISTEMA DE RECADOS</h1>
-                </header>
-                <p id="message"></p>
-                <form id="form-login">
-                    <div id="inputs-login">
-                        <input type="text" id="user-name" placeholder="Nome do usuário">
-                        <input type="password" id="user-password" placeholder="Senha">
-                    </div>
-                    <input type="submit" class="btn btn-secondary" value="ENTRAR" onclick="enterLogin(event)">
-                    <a href="./index.html" class="styleLink">CRIAR CONTA</a>
-                </form>
+        <div class="container-fluid my-container">
+            <div class="row">
+                <main class="div-style">
+                    <header>
+                        <h1>ENTRAR NO SISTEMA DE RECADOS</h1>
+                    </header>
+                    <p id="message"></p>
+                    <form id="form-login">
+                        <div id="inputs-login">   
+                            <input type="text" id="user-name" placeholder="Nome do usuário">
+                            <input type="password" id="user-password" placeholder="Senha">
+                        </div>
+                        <input type="submit" class="btn btn-secondary" value="ENTRAR" onclick="enterLogin(event)">
+                        <a href="./index.html">CRIAR CONTA</a>
+                    </form>
+                </main>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

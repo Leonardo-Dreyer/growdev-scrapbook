@@ -11,30 +11,28 @@
     </head>
     <body class="bg-image">
         <div class="container-fluid">
-            <div class="div-message">
+            <main id="div-messages">
                 <header>
                     <h1>Meus recados</h1>
-                    <button id="button-logout" class="btn btn-secondary" onclick="logout(event)">Sair</button>
+                    <button class="btn btn-secondary" onclick="logout(event)">Sair</button>
                 </header>
                 <p id="message"></p>
-                <main>
-                    <form class="inputs-message margin-bottom">
-                        <input type="text" id="input-descrition" placeholder="Descrição">
-                        <input type="text" id="input-detailing" placeholder="Detalhamento">
-                        <input type="submit" id="button-save" value="Salvar" class="btn btn-secondary" onclick="saveEditMessages(event)">
-                    </form>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th id="descrition">Descrição</th>
-                                <th id="detailing">Detalhamento</th>
-                                <th>Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="content"></tbody>
-                    </table>
-                </main>
-            </div>  
+                <form class="inputs-messages">
+                    <input type="text" id="input-descrition" placeholder="Descrição">
+                    <input type="text" id="input-detailing" placeholder="Detalhamento">
+                    <input type="submit" id="button-save" value="Salvar" class="btn btn-secondary" onclick="saveEditMessages(event)">
+                </form>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th id="descrition">Descrição</th>
+                            <th id="detailing">Detalhamento</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content"></tbody>
+                </table>
+            </main>  
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="./js/scripts.js"></script>

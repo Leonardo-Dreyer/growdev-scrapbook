@@ -28,7 +28,7 @@ function creatUser(event) {
                 userPassword.value = '';
                 userRepeatPassword.value = '';
             }).catch((error) => {
-                message.innerHTML = 'Usário já cadastrado!';
+                message.innerHTML = 'Usuário já cadastrado!';
                 console.log(error);
             });
     };
@@ -152,8 +152,8 @@ function showMessages() {
         response.data.forEach(message => {
         messageContent.innerHTML += `
             <tr data-id='${message.id}'>
-                <td><span>${message.descrition}</span></td>
-                <td><span>${message.detailing}</span></td>
+                <td>${message.descrition}</td>
+                <td>${message.detailing}</td>
                 <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
                 <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessages(event)'>
                 </td> 
