@@ -18,9 +18,17 @@
                 </header>
                 <p id="message"></p>
                 <form class="inputs-messages">
-                    <input type="text" id="input-descrition" placeholder="Descrição">
-                    <input type="text" id="input-detailing" placeholder="Detalhamento">
-                    <input type="submit" id="button-save" value="Salvar" class="btn btn-secondary" onclick="saveEditMessages(event)">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" id="input-descrition" placeholder="Descrição">
+                        </div>
+                        <div class="col">
+                            <input type="text" id="input-detailing" placeholder="Detalhamento">
+                        </div>
+                        <div class="col">
+                            <input type="submit" id="button-save" value="Salvar" class="btn btn-secondary" onclick="saveEditMessages(event)">
+                        </div>
+                    </div>
                 </form>
                 <table class="table">
                     <thead>

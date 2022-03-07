@@ -11,16 +11,20 @@
     </head>
     <body class="bg-image">
         <div class="container-fluid my-container">
-            <div class="row">
+            <div class="my-row">
                 <main class="div-style">
                     <header>
                         <h1>ENTRAR NO SISTEMA DE RECADOS</h1>
                     </header>
                     <p id="message"></p>
                     <form id="form-login">
-                        <div id="inputs-login">   
-                            <input type="text" id="user-name" placeholder="Nome do usuário">
-                            <input type="password" id="user-password" placeholder="Senha">
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" id="user-name" placeholder="Nome do usuário">
+                            </div>
+                            <div class="col">
+                                <input type="password" id="user-password" placeholder="Senha">
+                            </div>
                         </div>
                         <input type="submit" class="btn btn-secondary" value="ENTRAR" onclick="enterLogin(event)">
                         <a href="./index.html">CRIAR CONTA</a>

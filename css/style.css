@@ -1,6 +1,7 @@
-    h1 {
-        color: rgb(121, 65, 150);
-    }
+body {
+    font-size: 100%;
+    color: rgb(121, 65, 150);
+}
 
 .bg-image {
     background-image: url('../images/bg-imageMessage.gif');
@@ -18,7 +19,7 @@
     justify-content: center;
 }
 
-.row {
+.my-row {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,13 +67,14 @@ a {
     height: 150px;
 }
 
-#inputs-login {
-    display: flex;
-    justify-content: space-between;
+#form-login .row {
+    height: 80px;
 }
 
-#inputs-login input{
-    width: 49%;
+#form-login .row .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /*-------------------------- Style index ----------------------------*/
@@ -113,53 +115,39 @@ a {
     margin-bottom: 30px;
 }
 
-.inputs-messages input {
-    width: 500px; 
-    border: 1px solid;
+.inputs-messages .row {
+    margin: 0;
+}
+
+.inputs-messages .row .col {
+    height: 30px;
+    padding: 0;
 }
 
 #button-save {
-    width: 100px;
+    padding: 0;
+    height: 100%;
+    width: 80px;
 }
 
 .table {
     color: rgb(121, 121, 121);
     font-weight: 700;
     background-color: rgba(59, 30, 97, 0.836);  
-    table-layout: fixed;
     word-wrap: break-word;
-    min-width: 300px;
+    table-layout: fixed;
+    font-size: max(10px, 1.2vw);
 }
 
 .table input {
-    width: 80px;
+    font-size: min(15px, 2.5vw);
+    padding: 3px;
 }
 
 #descrition {
-    width: 30%;
+    width: 30%; 
 }
 
 #detailing {
     width: 50%;
-}
-
-@media (max-width: 700px) {
-    .inputs-messages {
-        display: flex;
-        margin-bottom: 30px;    
-        flex-wrap: wrap;
-    }
-
-    #descrition {
-        width: 30%;
-    }
-    
-    #detailing {
-        width: 40%;
-    }
-
-    .table input {
-        width: 70px;
-        padding: 8px;
-    }
 }
