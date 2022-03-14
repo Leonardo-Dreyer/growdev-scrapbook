@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="./css/style.css">
     </head>
     <body class="bg-image">
-        <div class="container-fluid">
+        <div class="container">
             <main id="div-messages">
                 <header>
                     <h1>Meus recados</h1>
@@ -19,13 +19,13 @@
                 <p id="message"></p>
                 <form class="inputs-messages">
                     <div class="row">
-                        <div class="col">
-                            <input type="text" id="input-descrition" placeholder="Descrição">
+                        <div class="col-12 col-md-5">
+                            <input type="text" id="input-descrition" class="form-control" placeholder="Descrição">
                         </div>
-                        <div class="col">
-                            <input type="text" id="input-detailing" placeholder="Detalhamento">
+                        <div class="col-12 col-md-5">
+                            <input type="text" id="input-detailing" class="form-control" placeholder="Detalhamento">
                         </div>
-                        <div class="col">
+                        <div class="col-md-2">
                             <input type="submit" id="button-save" value="Salvar" class="btn btn-secondary" onclick="saveEditMessages(event)">
                         </div>
                     </div>

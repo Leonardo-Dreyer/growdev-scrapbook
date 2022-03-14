@@ -1,5 +1,4 @@
 body {
-    font-size: 100%;
     color: rgb(121, 65, 150);
 }
 
@@ -23,18 +22,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.div-style {    
-    width: 500px;
-    padding: 20px;
-    border-radius: 7px;
-    background-color: rgba(0, 0, 0, 0.829);
-}
-
-.div-style header h1{   
-    text-align: center;
-    font-size: x-large;
 }
 
 .btn {
@@ -62,13 +49,12 @@ a {
 #form-login {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center ;
     height: 150px;
 }
 
 #form-login .row {
-    height: 80px;
+    height: 100%;
 }
 
 #form-login .row .col {
@@ -77,22 +63,24 @@ a {
     justify-content: center;
 }
 
-/*-------------------------- Style index ----------------------------*/
-
-.inputs-register {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 200px;
+.link-default {
+    color: #4e0070;
+    cursor: pointer;
 }
 
-.inputs-register span {
-    color: red;
-    display: none;
+.link-default:hover {
+    color: #4c79d3;
 }
 
-.inputs-register input:invalid + span {
-    display: inline;
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.829);
+}
+
+.div-login {    
+    width: 500px;
+    padding: 20px 20px 0px 20px;
+    border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.829);
 }
 
 /*-------------------------- Style page-messages ----------------------------*/
@@ -117,11 +105,7 @@ a {
 
 .inputs-messages .row {
     margin: 0;
-}
-
-.inputs-messages .row .col {
-    height: 30px;
-    padding: 0;
+    width: 100%;
 }
 
 #button-save {

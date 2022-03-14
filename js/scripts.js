@@ -1,140 +1,173 @@
+const registerName = document.getElementById('register-name');
+const registerPassword = document.getElementById('register-password');
+const registerRepeatPassword = document.getElementById('register-repeatpassword');
 const userName = document.getElementById('user-name');
 const userPassword = document.getElementById('user-password');
-const userRepeatPassword = document.getElementById('repeat-password') || true;
 const message = document.getElementById('message');
+const messageLog = document.getElementById('message-log');
+const messageRegister = document.getElementById('message-register');
 const inputDescrition = document.getElementById('input-descrition');
 const inputDetailing = document.getElementById('input-detailing');
 const messageContent = document.getElementById('content');
-let id = 0;
+axios.defaults.baseURL = 'https://scrapbook-api-growdev.herokuapp.com';
+const myModal = new bootstrap.Modal('#register-modal');
 
 function creatUser(event) {
     event.preventDefault();
 
     const userValid = validateUser(
-        userName.value,
-        userPassword.value,
-        userRepeatPassword.value
+        registerName.value,
+        registerPassword.value,
+        registerRepeatPassword.value
     );
+
     if (userValid === true) {
-        axios.post('https://scrapbook-api-growdev.herokuapp.com/users', {
-                name: userName.value,
-                password: userPassword.value,
-                repeatPassword: userRepeatPassword.value,
+        axios
+            .post('/users', {
+                name: registerName.value,
+                password: registerPassword.value,
+                repeatPassword: registerRepeatPassword.value,
                 logged: false,
-            }).then((response) => {
-                console.log(response);
-                message.innerHTML = response.data.message;
-                userName.value = '';
-                userPassword.value = '';
-                userRepeatPassword.value = '';
-            }).catch((error) => {
-                message.innerHTML = 'Usuário já cadastrado!';
-                console.log(error);
+            })
+            .then((response) => {
+                messageRegister.innerHTML = response.data.message;
+                registerName.value = '';
+                registerPassword.value = '';
+                registerRepeatPassword.value = '';
+
+            })
+            .catch(() => {
+                messageRegister.innerHTML = 'Usuário já cadastrado!';
+                registerName.value = '';
+                registerPassword.value = '';
+                registerRepeatPassword.value = '';
             });
-    };
+        };
+        setTimeout(() => {
+            messageRegister.innerHTML = '';
+        }, 2000);
 };
 
 function validateUser(name, password, repeatPassword) {
-
     if (name.length < 3) {
-        userName.classList.add('errors');
-        message.innerHTML = 'Nome inválida!';
+        registerName.classList.add('errors');
+        messageRegister.innerHTML = 'Nome inválida!';
         return false;
     } else {
-        message.innerHTML = '';
-        userName.classList.remove('errors');
-    };
+        messageRegister.innerHTML = '';
+        registerName.classList.remove('errors');
+    }
 
     if (password.length < 3 || password !== repeatPassword) {
-        message.innerHTML = 'Senha inválida!';
-        userPassword.classList.add('errors');
-        userRepeatPassword.classList.add('errors');
+        messageRegister.innerHTML = 'Senha inválida!';
+        registerPassword.classList.add('errors');
+        registerRepeatPassword.classList.add('errors');
         return false;
     } else {
-        userPassword.classList.remove('errors');
-        userRepeatPassword.classList.remove('errors');
-        userName.classList.remove('errors');
+        registerPassword.classList.remove('errors');
+        registerRepeatPassword.classList.remove('errors');
+        registerName.classList.remove('errors');
         return true;
-    };
-};
+    }
+}
+
+function showMessages() {
+    messageContent.innerHTML = '';
+    inputDescrition.value = '';
+    inputDetailing.value = '';
+    idMessages = 0;
+
+    axios
+        .get('/users/messages')
+        .then((response) => {
+            response.data.forEach((message) => {
+                messageContent.innerHTML += `
+            <tr data-id='${message.id}'>
+                <td>${message.descrition}</td>
+                <td>${message.detailing}</td>
+                <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
+                <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessages(event)'>
+                </td> 
+            </tr>
+        `;
+            });
+        })
+        .catch();
+}
+
+function getMessages(event) {
+    idMessages = event.target.parentNode.parentNode.dataset.id;
+
+    axios
+        .get(`/users/messages/${idMessages}`)
+        .then((response) => {
+            inputDescrition.value = response.data.descrition;
+            inputDetailing.value = response.data.detailing;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
 function enterLogin(event) {
     event.preventDefault();
 
-    axios.put(`https://scrapbook-api-growdev.herokuapp.com/users/${userName.value}/password/${userPassword.value}`)
-        .then((response) => {
+    axios
+        .put(`/users/${userName.value}/password/${userPassword.value}`)
+        .then(() => {
             location.href = 'page-messages.html';
             userName.classList.remove('errors');
             userPassword.classList.remove('errors');
-        }).catch((error) => {
-            message.innerHTML = 'Nome de usuário ou senha inválido!';
-            console.log(error);
+        })
+        .catch(() => {
+            messageLog.innerHTML = 'Nome de usuário ou senha inválido!';
             userName.classList.add('errors');
             userPassword.classList.add('errors');
         });
-};
+}
 
 function logout(event) {
     event.preventDefault();
 
-    axios.put(`https://scrapbook-api-growdev.herokuapp.com/users`)
-        .then((response) => {
-            console.log(response);
-            location.href = 'page-login.html';
-        }).catch((error) => {
-            console.log(error);
-        });
-};
+    axios
+        .put(`/users`)
+        .then(() => {
+            location.replace('page-login.html');
+        })
+        .catch();
+}
 
 function saveEditMessages(event) {
     event.preventDefault();
 
-    if (id === 0 && validateMessages() === true) {
+    if (idMessages === 0 && validateMessages() === true) {
         message.innerHTML = '';
-        axios.post('https://scrapbook-api-growdev.herokuapp.com/users/messages', {
+        axios
+            .post('/users/messages', {
                 descrition: inputDescrition.value,
                 detailing: inputDetailing.value,
-            }).then((response) => {
-                console.log(response);
-                messageContent.innerHTML = '';
-                axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
-                    .then(response => {
-                        console.log(response);
-                        showMessages();
-                    }).catch(error => {
-                        console.log(error);
-                    });
-                inputDescrition.value = '';
-                inputDetailing.value = '';
-            }).catch((error) => {
-                console.log(error);
-            });        
+            })
+            .then(() => {
+                showMessages();
+            })
+            .catch(() => {
+                message.innerHTML = 'Recado inválido!';
+            });
     } else {
-        axios.put(`https://scrapbook-api-growdev.herokuapp.com/users/messages/${id}`, {
+        axios
+            .put(`/users/messages/${idMessages}`, {
                 descrition: inputDescrition.value,
                 detailing: inputDetailing.value,
-            }).then((response) => {
-                console.log(response);
-                messageContent.innerHTML = '';
-                axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
-                    .then(response => {
-                        console.log(response);
-                        showMessages();
-                    }).catch(error => {
-                        console.log(error);
-                    });
-                inputDescrition.value = '';
-                inputDetailing.value = '';
-                id = 0;
-            }).catch((error) => {
-                console.log(error);
-            });   
-    };
-};
+            })
+            .then(() => {
+                showMessages();
+            })
+            .catch();
+    }
+}
 
 function validateMessages() {
-
-    if (inputDescrition.value === '' || inputDetailing.value === '') {
+    if (!inputDescrition.value || !inputDetailing.value) {
         inputDescrition.classList.add('errors');
         inputDetailing.classList.add('errors');
         message.innerHTML = 'Recado inválido!';
@@ -143,56 +176,16 @@ function validateMessages() {
         inputDetailing.classList.remove('errors');
         message.innerHTML = '';
         return true;
-    };
-};
-
-function showMessages() {
-    axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
-    .then(response => {
-        response.data.forEach(message => {
-        messageContent.innerHTML += `
-            <tr data-id='${message.id}'>
-                <td>${message.descrition}</td>
-                <td>${message.detailing}</td>
-                <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
-                <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessages(event)'>
-                </td> 
-            </tr>
-        `
-        });
-    }).catch(error => {
-        console.log(error);
-    });
-};
-
-function getMessages(event) {
-    id = event.target.parentNode.parentNode.dataset.id;
-
-    axios.get(`https://scrapbook-api-growdev.herokuapp.com/users/messages/${id}`)
-        .then(response => {
-            inputDescrition.value = response.data.descrition;
-            inputDetailing.value = response.data.detailing;
-        }).catch(error => {
-            console.log(error);
-        });
-};
+    }
+}
 
 function deleteMessages(event) {
-    id = event.target.parentNode.parentNode.dataset.id;
+    idMessages = event.target.parentNode.parentNode.dataset.id;
 
-    axios.delete(`https://scrapbook-api-growdev.herokuapp.com/users/messages/${id}`)
-        .then(response => {
-            console.log(response);
-            messageContent.innerHTML = '';
-            axios.get('https://scrapbook-api-growdev.herokuapp.com/users/messages')
-                .then(response => {
-                    console.log(response);
-                    showMessages();
-                }).catch(error => {
-                    console.log(error);
-                });
-            id = 0;
-        }).catch(error => {
-            console.log(error);
-        });
-};
+    axios
+        .delete(`/users/messages/${idMessages}`)
+        .then(() => {
+            showMessages();
+        })
+        .catch();
+}
