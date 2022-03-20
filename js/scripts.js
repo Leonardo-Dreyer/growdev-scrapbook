@@ -126,7 +126,7 @@ function logout(event) {
 
     axios.put(`/users`)
         .then(() => {
-            location.replace('page-login.html');
+            location.replace('index.html');
         })
         .catch();
 }
