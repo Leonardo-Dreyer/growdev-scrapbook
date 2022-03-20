@@ -10,7 +10,7 @@ const inputDescrition = document.getElementById('input-descrition');
 const inputDetailing = document.getElementById('input-detailing');
 const messageContent = document.getElementById('content');
 axios.defaults.baseURL = 'https://scrapbook-api-growdev.herokuapp.com';
-const myModal = new bootstrap.Modal('#register-modal');
+let idMessages = 0;
 
 function creatUser(event) {
     event.preventDefault();
@@ -22,8 +22,7 @@ function creatUser(event) {
     );
 
     if (userValid === true) {
-        axios
-            .post('/users', {
+        axios.post('/users', {
                 name: registerName.value,
                 password: registerPassword.value,
                 repeatPassword: registerRepeatPassword.value,
@@ -34,7 +33,6 @@ function creatUser(event) {
                 registerName.value = '';
                 registerPassword.value = '';
                 registerRepeatPassword.value = '';
-
             })
             .catch(() => {
                 messageRegister.innerHTML = 'Usuário já cadastrado!';
@@ -77,8 +75,7 @@ function showMessages() {
     inputDetailing.value = '';
     idMessages = 0;
 
-    axios
-        .get('/users/messages')
+    axios.get('/users/messages')
         .then((response) => {
             response.data.forEach((message) => {
                 messageContent.innerHTML += `
@@ -98,8 +95,7 @@ function showMessages() {
 function getMessages(event) {
     idMessages = event.target.parentNode.parentNode.dataset.id;
 
-    axios
-        .get(`/users/messages/${idMessages}`)
+    axios.get(`/users/messages/${idMessages}`)
         .then((response) => {
             inputDescrition.value = response.data.descrition;
             inputDetailing.value = response.data.detailing;
@@ -112,8 +108,7 @@ function getMessages(event) {
 function enterLogin(event) {
     event.preventDefault();
 
-    axios
-        .put(`/users/${userName.value}/password/${userPassword.value}`)
+    axios.put(`/users/${userName.value}/password/${userPassword.value}`)
         .then(() => {
             location.href = 'page-messages.html';
             userName.classList.remove('errors');
@@ -124,13 +119,12 @@ function enterLogin(event) {
             userName.classList.add('errors');
             userPassword.classList.add('errors');
         });
-}
+};
 
 function logout(event) {
     event.preventDefault();
 
-    axios
-        .put(`/users`)
+    axios.put(`/users`)
         .then(() => {
             location.replace('page-login.html');
         })
@@ -142,8 +136,7 @@ function saveEditMessages(event) {
 
     if (idMessages === 0 && validateMessages() === true) {
         message.innerHTML = '';
-        axios
-            .post('/users/messages', {
+        axios.post('/users/messages', {
                 descrition: inputDescrition.value,
                 detailing: inputDetailing.value,
             })
@@ -154,8 +147,7 @@ function saveEditMessages(event) {
                 message.innerHTML = 'Recado inválido!';
             });
     } else {
-        axios
-            .put(`/users/messages/${idMessages}`, {
+        axios.put(`/users/messages/${idMessages}`, {
                 descrition: inputDescrition.value,
                 detailing: inputDetailing.value,
             })
@@ -182,8 +174,7 @@ function validateMessages() {
 function deleteMessages(event) {
     idMessages = event.target.parentNode.parentNode.dataset.id;
 
-    axios
-        .delete(`/users/messages/${idMessages}`)
+    axios.delete(`/users/messages/${idMessages}`)
         .then(() => {
             showMessages();
         })
