@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
-<body class="bg-image">
-    <div class="container-fluid my-container">
+<body class="bg-image" onload="authentication(event)">
+    <div class=" container-fluid my-container">
         <div class="my-row">
             <main class="div-login">
                 <header class="text-center">
@@ -22,16 +22,18 @@
                 <form id="form-login">
                     <div class="row">
                         <div class="col-12 col-md-6 mb-2">
-                            <input type="text" id="user-name" class="form-control" placeholder="Email do usuário">
+                            <input type="email" id="user-email" class="form-control" placeholder="E-mail do usuário"
+                                required>
                         </div>
                         <div class="col-12 col-md-6 mb-2">
-                            <input type="password" id="user-password" class="form-control" placeholder="Senha">
+                            <input type="password" id="user-password" class="form-control" placeholder="Senha" required>
                         </div>
                     </div>
-                    <input type="submit" class="btn btn-secondary" value="ENTRAR" onclick="enterLogin(event)">
+                    <input type="submit" class="btn btn-secondary" value="ENTRAR" onclick="login(event)">
                     <div id="link-register" class="mt-2">
                         <p id="register-user" class="link-default" data-bs-toggle="modal"
-                            data-bs-target="#register-modal">Criar conta</p>
+                            data-bs-target="#register-modal">
+                            Criar conta</p>
                     </div>
                 </form>
             </main>
@@ -47,8 +49,8 @@
                 <form id="transaction-form">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="value-input" class="form-label">Email</label>
-                            <input type="text" step="any" class="form-control" id="register-name"
+                            <label for="value-input" class="form-label">E-mail</label>
+                            <input type="email" step="any" class="form-control" id="register-email"
                                 aria-describedby="emailHelp" required>
                         </div>
                         <div class="mb-3">
