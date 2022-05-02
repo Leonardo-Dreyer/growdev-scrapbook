@@ -1,103 +1,146 @@
-const registerName = document.getElementById('register-name');
+const registerEmail = document.getElementById('register-email');
 const registerPassword = document.getElementById('register-password');
-const registerRepeatPassword = document.getElementById('register-repeatpassword');
-const userName = document.getElementById('user-name');
+const registerRepeatPassword = document.getElementById(
+    'register-repeatpassword'
+);
+const userEmail = document.getElementById('user-email');
 const userPassword = document.getElementById('user-password');
 const message = document.getElementById('message');
 const messageLog = document.getElementById('message-log');
 const messageRegister = document.getElementById('message-register');
-const inputDescrition = document.getElementById('input-descrition');
+const inputDescription = document.getElementById('input-description');
 const inputDetailing = document.getElementById('input-detailing');
 const messageContent = document.getElementById('content');
-axios.defaults.baseURL = 'https://scrapbook-api-growdev.herokuapp.com';
-let idMessages = 0;
+const userSession = JSON.parse(localStorage.getItem('logged'));
+let idMessage = 0;
+axios.defaults.baseURL = 'http://localhost:8080';
+
+function authentication(event) {
+    event.preventDefault();
+
+    axios
+        .get('/user', {
+            headers: { Authorization: `Bearer ${userSession.token}` }
+        })
+        .then(() => {
+            location.href = 'messages.html';
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
 function creatUser(event) {
     event.preventDefault();
 
-    const userValid = validateUser(
-        registerName.value,
+    const userValid = validatePassword(
         registerPassword.value,
         registerRepeatPassword.value
     );
 
-    if (userValid === true) {
-        axios.post('/users', {
-                name: registerName.value,
-                password: registerPassword.value,
-                repeatPassword: registerRepeatPassword.value,
-                logged: false,
-            })
-            .then((response) => {
-                messageRegister.innerHTML = response.data.message;
-                registerName.value = '';
-                registerPassword.value = '';
-                registerRepeatPassword.value = '';
-            })
-            .catch(() => {
-                messageRegister.innerHTML = 'Usuário já cadastrado!';
-                registerName.value = '';
-                registerPassword.value = '';
-                registerRepeatPassword.value = '';
-            });
+    if (userValid) {
+        const data = {
+            email: registerEmail.value,
+            password: registerPassword.value
         };
-        setTimeout(() => {
-            messageRegister.innerHTML = '';
-        }, 2000);
-};
-
-function validateUser(name, password, repeatPassword) {
-    if (name.length < 3) {
-        registerName.classList.add('errors');
-        messageRegister.innerHTML = 'Nome inválida!';
-        return false;
-    } else {
-        messageRegister.innerHTML = '';
-        registerName.classList.remove('errors');
+        axios
+            .post('/user', data)
+            .then(() => {
+                messageRegister.innerHTML = 'Usuário cadastrado com sucesso!';
+                registerEmail.value = '';
+                registerPassword.value = '';
+                registerRepeatPassword.value = '';
+            })
+            .catch((error) => {
+                console.log(error.response);
+                messageRegister.innerHTML = error.response.data.message;
+                registerEmail.value = '';
+                registerPassword.value = '';
+                registerRepeatPassword.value = '';
+                registerEmail.classList.add('errors');
+                registerPassword.classList.add('errors');
+                registerRepeatPassword.classList.add('errors');
+            });
     }
+    setTimeout(() => {
+        messageRegister.innerHTML = '';
+    }, 4000);
+}
 
-    if (password.length < 3 || password !== repeatPassword) {
-        messageRegister.innerHTML = 'Senha inválida!';
-        registerPassword.classList.add('errors');
+function validatePassword(password, repeatPassword) {
+    if (password !== repeatPassword) {
+        messageRegister.innerHTML = 'Senhas devem ser iguais!';
         registerRepeatPassword.classList.add('errors');
         return false;
     } else {
+        registerEmail.classList.remove('errors');
         registerPassword.classList.remove('errors');
         registerRepeatPassword.classList.remove('errors');
-        registerName.classList.remove('errors');
         return true;
     }
 }
 
-function showMessages() {
-    messageContent.innerHTML = '';
-    inputDescrition.value = '';
-    inputDetailing.value = '';
-    idMessages = 0;
+function login(event) {
+    event.preventDefault();
+    const data = {
+        email: userEmail.value,
+        password: userPassword.value
+    };
+    axios
+        .post('/auth', data)
+        .then((response) => {
+            const userSession = {
+                token: response.data.token
+            };
+            localStorage.setItem('logged', JSON.stringify(userSession));
+            location.href = 'messages.html';
+        })
+        .catch((error) => {
+            console.log(error.response);
+            messageLog.innerHTML = error.response.data.message;
+            userEmail.classList.add('errors');
+            userPassword.classList.add('errors');
+        });
+}
 
-    axios.get('/users/messages')
+function showMessages(event) {
+    event.preventDefault();
+    messageContent.innerHTML = '';
+
+    if (!userSession) {
+        location.href = 'index.html';
+    }
+
+    axios
+        .get('/message', {
+            headers: { Authorization: `Bearer ${userSession.token}` }
+        })
         .then((response) => {
             response.data.forEach((message) => {
                 messageContent.innerHTML += `
-            <tr data-id='${message.id}'>
-                <td>${message.descrition}</td>
+            <tr data-id='${message.uid}'>
+                <td>${message.description}</td>
                 <td>${message.detailing}</td>
                 <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
-                <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessages(event)'>
+                <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessage(event)'>
                 </td> 
             </tr>
         `;
             });
         })
-        .catch();
+        .catch((error) => {
+            console.log(error);
+            message.innerHTML = error.response.data.message;
+        });
 }
 
 function getMessages(event) {
-    idMessages = event.target.parentNode.parentNode.dataset.id;
+    idMessage = event.target.parentNode.parentNode.dataset.id;
 
-    axios.get(`/users/messages/${idMessages}`)
+    axios
+        .get(`/message/${idMessage}`)
         .then((response) => {
-            inputDescrition.value = response.data.descrition;
+            inputDescription.value = response.data.description;
             inputDetailing.value = response.data.detailing;
         })
         .catch((error) => {
@@ -105,78 +148,80 @@ function getMessages(event) {
         });
 }
 
-function enterLogin(event) {
+function saveMessages(event) {
     event.preventDefault();
 
-    axios.put(`/users/${userName.value}/password/${userPassword.value}`)
+    const data = {
+        description: inputDescription.value,
+        detailing: inputDetailing.value
+    };
+    if (idMessage === 0) {
+        message.innerHTML = '';
+        axios
+            .post('/message', data, {
+                headers: { Authorization: `Bearer ${userSession.token}` }
+            })
+            .then((response) => {
+                validateMessage(true);
+                messageContent.innerHTML += `
+                <tr data-id='${response.data.uid}'>
+                    <td>${response.data.description}</td>
+                    <td>${response.data.detailing}</td>
+                    <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
+                    <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessage(event)'>
+                    </td> 
+                </tr>
+            `;
+            })
+            .catch((error) => {
+                console.log(error);
+                message.innerHTML = error.response.data.message;
+                validateMessage(false);
+            });
+    } else {
+        axios
+            .put(`/message/${idMessage}`, data)
+            .then(() => {
+                validateMessage(true);
+                showMessages(event);
+            })
+            .catch((error) => {
+                console.log(error);
+                message.innerHTML = error.response.data.message;
+                validateMessage(false);
+            });
+    }
+}
+
+function validateMessage(data) {
+    if (data) {
+        inputDescription.classList.remove('errors');
+        inputDetailing.classList.remove('errors');
+        message.innerHTML = '';
+        inputDescription.value = '';
+        inputDetailing.value = '';
+    } else {
+        inputDescription.classList.add('errors');
+        inputDetailing.classList.add('errors');
+    }
+}
+
+function deleteMessage(event) {
+    idMessage = event.target.parentNode.parentNode.dataset.id;
+    axios
+        .delete(`/message/${idMessage}`)
         .then(() => {
-            location.href = 'page-messages.html';
-            userName.classList.remove('errors');
-            userPassword.classList.remove('errors');
+            showMessages(event);
+            idMessage = 0;
         })
-        .catch(() => {
-            messageLog.innerHTML = 'Nome de usuário ou senha inválido!';
-            userName.classList.add('errors');
-            userPassword.classList.add('errors');
+        .catch((error) => {
+            console.log(error);
         });
-};
+}
 
 function logout(event) {
     event.preventDefault();
 
-    axios.put(`/users`)
-        .then(() => {
-            location.replace('index.html');
-        })
-        .catch();
-}
-
-function saveEditMessages(event) {
-    event.preventDefault();
-
-    if (idMessages === 0 && validateMessages() === true) {
-        message.innerHTML = '';
-        axios.post('/users/messages', {
-                descrition: inputDescrition.value,
-                detailing: inputDetailing.value,
-            })
-            .then(() => {
-                showMessages();
-            })
-            .catch(() => {
-                message.innerHTML = 'Recado inválido!';
-            });
-    } else {
-        axios.put(`/users/messages/${idMessages}`, {
-                descrition: inputDescrition.value,
-                detailing: inputDetailing.value,
-            })
-            .then(() => {
-                showMessages();
-            })
-            .catch();
-    }
-}
-
-function validateMessages() {
-    if (!inputDescrition.value || !inputDetailing.value) {
-        inputDescrition.classList.add('errors');
-        inputDetailing.classList.add('errors');
-        message.innerHTML = 'Recado inválido!';
-    } else {
-        inputDescrition.classList.remove('errors');
-        inputDetailing.classList.remove('errors');
-        message.innerHTML = '';
-        return true;
-    }
-}
-
-function deleteMessages(event) {
-    idMessages = event.target.parentNode.parentNode.dataset.id;
-
-    axios.delete(`/users/messages/${idMessages}`)
-        .then(() => {
-            showMessages();
-        })
-        .catch();
+    location.href = 'index.html';
+    localStorage.removeItem('logged');
 }

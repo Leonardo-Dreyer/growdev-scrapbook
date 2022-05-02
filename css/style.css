@@ -64,7 +64,7 @@ a {
 }
 
 .link-default {
-    color: #4e0070;
+    color: rgb(121, 65, 150);
     cursor: pointer;
 }
 
@@ -128,7 +128,7 @@ a {
     padding: 3px;
 }
 
-#descrition {
+#description {
     width: 30%; 
 }
 
