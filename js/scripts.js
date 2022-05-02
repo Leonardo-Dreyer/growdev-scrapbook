@@ -151,43 +151,11 @@ function getMessages(event) {
 function saveMessages(event) {
     event.preventDefault();
 
-<<<<<<< HEAD
     const data = {
         description: inputDescription.value,
         detailing: inputDetailing.value
     };
     if (idMessage === 0) {
-=======
-    axios
-        .put(`/users/${userName.value}/password/${userPassword.value}`)
-        .then(() => {
-            location.href = 'page-messages.html';
-            userName.classList.remove('errors');
-            userPassword.classList.remove('errors');
-        })
-        .catch(() => {
-            messageLog.innerHTML = 'Nome de usuário ou senha inválido!';
-            userName.classList.add('errors');
-            userPassword.classList.add('errors');
-        });
-}
-
-function logout(event) {
-    event.preventDefault();
-
-    axios
-        .put(`/users`)
-        .then(() => {
-            location.replace('index.html');
-        })
-        .catch();
-}
-
-function saveEditMessages(event) {
-    event.preventDefault();
-
-    if (idMessages === 0 && validateMessages() === true) {
->>>>>>> 7fc3ddc9559c81e1af03c7db21715767ac8e8402
         message.innerHTML = '';
         axios
             .post('/message', data, {
