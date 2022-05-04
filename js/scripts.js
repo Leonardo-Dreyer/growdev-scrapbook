@@ -13,7 +13,7 @@ const inputDetailing = document.getElementById('input-detailing');
 const messageContent = document.getElementById('content');
 const userSession = JSON.parse(localStorage.getItem('logged'));
 let idMessage = 0;
-axios.defaults.baseURL = 'https://scrapbook-api-growdev.herokuapp.com';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 function authentication(event) {
     event.preventDefault();
