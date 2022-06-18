@@ -9,7 +9,7 @@ const message = document.getElementById('message');
 const messageLog = document.getElementById('message-log');
 const messageRegister = document.getElementById('message-register');
 const inputDescription = document.getElementById('input-description');
-const inputDetailing = document.getElementById('input-detailing');
+const inputDetail = document.getElementById('input-detail');
 const messageContent = document.getElementById('content');
 const userSession = JSON.parse(localStorage.getItem('logged'));
 let idMessage = 0;
@@ -120,7 +120,7 @@ function showMessages(event) {
                 messageContent.innerHTML += `
             <tr data-id='${message.uid}'>
                 <td>${message.description}</td>
-                <td>${message.detailing}</td>
+                <td>${message.detail}</td>
                 <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
                 <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessage(event)'>
                 </td> 
@@ -129,7 +129,6 @@ function showMessages(event) {
             });
         })
         .catch((error) => {
-            console.log(error);
             message.innerHTML = error.response.data.message;
         });
 }
@@ -141,7 +140,7 @@ function getMessages(event) {
         .get(`/message/${idMessage}`)
         .then((response) => {
             inputDescription.value = response.data.description;
-            inputDetailing.value = response.data.detailing;
+            inputDetail.value = response.data.detail;
         })
         .catch((error) => {
             console.log(error);
@@ -153,7 +152,7 @@ function saveMessages(event) {
 
     const data = {
         description: inputDescription.value,
-        detailing: inputDetailing.value
+        detail: inputDetail.value
     };
     if (idMessage === 0) {
         message.innerHTML = '';
@@ -166,7 +165,7 @@ function saveMessages(event) {
                 messageContent.innerHTML += `
                 <tr data-id='${response.data.uid}'>
                     <td>${response.data.description}</td>
-                    <td>${response.data.detailing}</td>
+                    <td>${response.data.detail}</td>
                     <td><input type='submit' id='button-enter' class='btn btn-secondary' value='Editar' onclick='getMessages(event)'> 
                     <input type='submit' id='button-delete' class='btn btn-secondary' value='Deletar' onclick='deleteMessage(event)'>
                     </td> 
@@ -196,13 +195,13 @@ function saveMessages(event) {
 function validateMessage(data) {
     if (data) {
         inputDescription.classList.remove('errors');
-        inputDetailing.classList.remove('errors');
+        inputDetail.classList.remove('errors');
         message.innerHTML = '';
         inputDescription.value = '';
-        inputDetailing.value = '';
+        inputDetail.value = '';
     } else {
         inputDescription.classList.add('errors');
-        inputDetailing.classList.add('errors');
+        inputDetail.classList.add('errors');
     }
 }
 
